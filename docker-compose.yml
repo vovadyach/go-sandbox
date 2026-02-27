@@ -2,7 +2,7 @@ name: go-sandbox-api
 
 services:
   db:
-    image: postgres:16-alpine
+    image: postgres:17
     container_name: go_sandbox_db
     restart: unless-stopped
     ports:
