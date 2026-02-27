@@ -9,16 +9,8 @@ Exploring Go patterns and best practices.
 - **PostgreSQL** — with migrations and seed data
 - **React + TypeScript** — data dashboard
 - **Docker** — PostgreSQL container
-
-## What I'm Practicing
-
-- Go project structure (`cmd/` and `internal/` pattern)
-- pgx/v5 connection pooling
-- Pagination with offset-based queries
-- Dynamic query building with filters
-- Proper error handling and response patterns
-- Environment-based configuration
-- Docker Compose for local development
+- **Goose** — database migrations
+- **Make** — project commands
 
 ## Quick Start
 ```bash
@@ -26,17 +18,22 @@ git clone https://github.com/vovadyach/go-sandbox
 cd go-sandbox
 cp .env.example .env
 docker compose up db -d
+make migrate-up
 cd api
 go mod tidy
-go run cmd/migrate/main.go
 go run cmd/seed/main.go
 go run cmd/server/main.go
 ```
 
-## API Docs
-TBD
+## Available Commands
+```bash
+make migrate-up                        # Run migrations
+make migrate-down                      # Rollback migrations
+make migrate-status                    # Check migration status
+make migrate-create name=add_table     # Create new migration
+```
 
-## API Endpoints
+## API Docs
 TBD
 
 ## Status
