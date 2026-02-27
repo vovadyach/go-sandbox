@@ -1,0 +1,23 @@
+# Environment
+.env
+.env.local
+.env.production
+
+# Go
+api/tmp/
+api/bin/
+
+# Node
+frontend/node_modules/
+frontend/dist/
+frontend/.next/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
