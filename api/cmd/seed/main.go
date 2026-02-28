@@ -84,6 +84,7 @@ func main() {
 
 	for i := 0; i < 500; i++ {
 		createdAt := startTime.Add(time.Duration(i) * 17 * time.Hour) // ~17 hours apart
+		updatedAt := createdAt
 		first := firstNames[rand.Intn(len(firstNames))]
 		last := lastNames[rand.Intn(len(lastNames))]
 		email := fmt.Sprintf("%s.%s%d@example.com", strings.ToLower(first), strings.ToLower(last), i)
@@ -92,13 +93,13 @@ func main() {
 		status := statuses[rand.Intn(len(statuses))]
 		avatar := fmt.Sprintf("https://i.pravatar.cc/150?u=%d", i)
 
-		userValues = append(userValues, fmt.Sprintf("($%d, $%d, $%d, $%d, $%d, $%d, $%d, $%d)",
-			argIdx, argIdx+1, argIdx+2, argIdx+3, argIdx+4, argIdx+5, argIdx+6, argIdx+7))
-		userArgs = append(userArgs, first, last, email, role, status, country, avatar, createdAt)
-		argIdx += 8
+		userValues = append(userValues, fmt.Sprintf("($%d, $%d, $%d, $%d, $%d, $%d, $%d, $%d, $%d)",
+			argIdx, argIdx+1, argIdx+2, argIdx+3, argIdx+4, argIdx+5, argIdx+6, argIdx+7, argIdx+8))
+		userArgs = append(userArgs, first, last, email, role, status, country, avatar, createdAt, updatedAt)
+		argIdx += 9
 	}
 
-	userQuery := "INSERT INTO users (first_name, last_name, email, role, status, country, avatar_url, created_at) VALUES " +
+	userQuery := "INSERT INTO users (first_name, last_name, email, role, status, country, avatar_url, created_at, updated_at) VALUES " +
 		strings.Join(userValues, ", ") + " RETURNING id"
 
 	rows, err := db.Query(ctx, userQuery, userArgs...)
@@ -128,18 +129,19 @@ func main() {
 
 	for i := 0; i < 2000; i++ {
 		createdAt := startTime.Add(time.Duration(i) * 4 * time.Hour) // ~4 hours apart
+		updatedAt := createdAt
 		userID := userIDs[rand.Intn(len(userIDs))]
 		title := postTitles[rand.Intn(len(postTitles))]
 		body := postBodies[rand.Intn(len(postBodies))]
 		status := postStatuses[rand.Intn(len(postStatuses))]
 
-		postValues = append(postValues, fmt.Sprintf("($%d, $%d, $%d, $%d, $%d)",
-			argIdx, argIdx+1, argIdx+2, argIdx+3, argIdx+4))
-		postArgs = append(postArgs, userID, title, body, status, createdAt)
-		argIdx += 5
+		postValues = append(postValues, fmt.Sprintf("($%d, $%d, $%d, $%d, $%d, $%d)",
+			argIdx, argIdx+1, argIdx+2, argIdx+3, argIdx+4, argIdx+5))
+		postArgs = append(postArgs, userID, title, body, status, createdAt, updatedAt)
+		argIdx += 6
 	}
 
-	postQuery := "INSERT INTO posts (user_id, title, content, status, created_at) VALUES " +
+	postQuery := "INSERT INTO posts (user_id, title, content, status, created_at, updated_at) VALUES " +
 		strings.Join(postValues, ", ") + " RETURNING id"
 	_, err = db.Exec(ctx, postQuery, postArgs...)
 
