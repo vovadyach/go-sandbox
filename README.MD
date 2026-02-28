@@ -1,4 +1,4 @@
-# Go Sandbox
+# Go REST API
 
 Building paginated REST API with dynamic filtering and sorting for user and post management
 
