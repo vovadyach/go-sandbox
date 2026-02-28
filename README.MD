@@ -1,7 +1,6 @@
 # Go Sandbox
 
-Learning Go by building a paginated REST API with a React dashboard.
-Exploring Go patterns and best practices.
+Building paginated REST API with dynamic filtering and sorting for user and post management
 
 ## Tech Stack
 
