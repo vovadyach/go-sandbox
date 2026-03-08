@@ -15,7 +15,7 @@ func NewRepository(db *pgxpool.Pool) *Repository {
 	return &Repository{db: db}
 }
 
-func (r *Repository) List(ctx context.Context, limit, offset int, status string) ([]WithAuthor, int, error) {
+func (r *Repository) List(ctx context.Context, limit, offset int, status string, sortCol, sortOrder string) ([]WithAuthor, int, error) {
 	baseQuery := "FROM posts p JOIN users u ON p.user_id = u.id"
 	countQuery := "SELECT COUNT(*) "
 	selectQuery := "SELECT p.id, p.created_at, p.updated_at, p.user_id, p.title, p.content, p.status, p.image_url, u.first_name, u.last_name "
@@ -36,7 +36,7 @@ func (r *Repository) List(ctx context.Context, limit, offset int, status string)
 	}
 
 	dataQuery := selectQuery + baseQuery +
-		fmt.Sprintf(" ORDER BY p.created_at DESC LIMIT $%d OFFSET $%d", argIndex, argIndex+1)
+		fmt.Sprintf(" ORDER BY %s %s LIMIT $%d OFFSET $%d", sortCol, sortOrder, argIndex, argIndex+1)
 	args = append(args, limit, offset)
 
 	rows, err := r.db.Query(ctx, dataQuery, args...)

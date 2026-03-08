@@ -27,7 +27,11 @@ func (h *Handler) List(w http.ResponseWriter, r *http.Request) {
 	params := pagination.Parse(r, h.config.Pagination.DefaultLimit, h.config.Pagination.MaxLimit)
 
 	status := r.URL.Query().Get("status")
-	posts, total, err := h.repo.List(r.Context(), params.Limit, params.Offset, status)
+	sort := pagination.ParseSort(r, []string{
+		"created_at", "title", "status",
+	}, "created_at")
+
+	posts, total, err := h.repo.List(r.Context(), params.Limit, params.Offset, status, sort.Column, sort.Order)
 	if err != nil {
 		response.Error(w, http.StatusInternalServerError, "failed to fetch posts")
 		return

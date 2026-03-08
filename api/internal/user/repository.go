@@ -17,7 +17,7 @@ func NewRepository(db *pgxpool.Pool) *Repository {
 	return &Repository{db: db}
 }
 
-func (r *Repository) List(ctx context.Context, limit, offset int, role, status string) ([]User, int, error) {
+func (r *Repository) List(ctx context.Context, limit, offset int, role, status string, sortCol, sortOrder string) ([]User, int, error) {
 	baseQuery := "FROM users"
 	countQuery := "SELECT COUNT(*) "
 	selectQuery := "SELECT id, created_at, updated_at, first_name, last_name, email, role, status, country, avatar_url "
@@ -54,7 +54,7 @@ func (r *Repository) List(ctx context.Context, limit, offset int, role, status s
 
 	// Query
 	dataQuery := selectQuery + baseQuery +
-		fmt.Sprintf(" ORDER BY created_at DESC LIMIT $%d OFFSET $%d", argIndex, argIndex+1)
+		fmt.Sprintf(" ORDER BY %s %s LIMIT $%d OFFSET $%d", sortCol, sortOrder, argIndex, argIndex+1)
 	args = append(args, limit, offset)
 
 	rows, err := r.db.Query(ctx, dataQuery, args...)

@@ -28,8 +28,11 @@ func (h *Handler) List(w http.ResponseWriter, r *http.Request) {
 
 	role := r.URL.Query().Get("role")
 	status := r.URL.Query().Get("status")
+	sort := pagination.ParseSort(r, []string{
+		"created_at", "first_name", "last_name", "role", "status",
+	}, "created_at")
 
-	users, total, err := h.repo.List(r.Context(), params.Limit, params.Offset, role, status)
+	users, total, err := h.repo.List(r.Context(), params.Limit, params.Offset, role, status, sort.Column, sort.Order)
 	if err != nil {
 		response.Error(w, http.StatusInternalServerError, "failed to fetch users")
 		return
