@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/joho/godotenv"
 )
@@ -15,7 +16,9 @@ type Config struct {
 }
 
 type ServerConfig struct {
-	Port int
+	Port         int
+	ReadTimeout  time.Duration
+	WriteTimeout time.Duration
 }
 
 type DatabaseConfig struct {

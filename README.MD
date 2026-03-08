@@ -32,8 +32,17 @@ make migrate-status                    # Check migration status
 make migrate-create name=add_table     # Create new migration
 ```
 
-## API Docs
-TBD
+## API Endpoints
+```
+GET /health                          — Health check
+GET /api/users?page=1&limit=20       — List users (paginated)
+GET /api/users?role=admin            — Filter by role
+GET /api/users?status=active         — Filter by status
+GET /api/users/:id                   — User detail
+GET /api/users/:id/posts             — User's posts (paginated)
+GET /api/posts?page=1&limit=20       — List posts (paginated)
+GET /api/posts?status=published      — Filter by status
+```
 
 ## Status
 🚧 Work in progress
